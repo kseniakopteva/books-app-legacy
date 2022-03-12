@@ -1,7 +1,3 @@
-<?php
-require 'db_connection.php';
-?>
-
 <!doctype html>
 <html lang="en">
 
@@ -20,9 +16,9 @@ require 'db_connection.php';
 
     <div class="d-flex">
         <?php
-        $dbConnection = OpenCon();
 
-        $stmt = $dbConnection->prepare('SELECT books.title, books.year, GROUP_CONCAT(authors.name SEPARATOR ", "), books.description
+        require 'config.php';
+        $stmt = $mysqli->prepare('SELECT books.title, books.year, GROUP_CONCAT(authors.name SEPARATOR ", "), books.description
         FROM books
         JOIN bookauthors ON books.bookid = bookauthors.bookid
         JOIN authors ON bookauthors.authorid = authors.authorid
@@ -55,7 +51,7 @@ require 'db_connection.php';
         <?php
             $i++;
         endwhile;
-        CloseCon($dbConnection);
+        $mysqli->close();
         ?>
     </div>
 
