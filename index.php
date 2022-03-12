@@ -1,3 +1,15 @@
+<?php
+// Initialize the session
+session_start();
+
+// Check if the user is logged in, if not then redirect him to login page
+if (isset($_SESSION["loggedin"])) {
+    header("location: /src/welcome.php");
+    exit;
+}
+?>
+
+
 <!doctype html>
 <html lang="en">
 
@@ -14,46 +26,7 @@
 <body>
     <h1>Books!app</h1>
 
-    <div class="d-flex">
-        <?php
-
-        require 'config.php';
-        $stmt = $mysqli->prepare('SELECT books.title, books.year, GROUP_CONCAT(authors.name SEPARATOR ", "), books.description
-        FROM books
-        JOIN bookauthors ON books.bookid = bookauthors.bookid
-        JOIN authors ON bookauthors.authorid = authors.authorid
-        GROUP BY books.title
-        ');
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $i = 1;
-        while ($row = $result->fetch_assoc()) :
-
-            $title = $row['title'];
-            $name = $row['GROUP_CONCAT(authors.name SEPARATOR ", ")'];
-            $description = $row['description'];
-            $small_description = substr($description, 0, 150);
-        ?>
-            <div class="card m-4" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title"> <?php echo $title ?> </h5>
-                    <h6 class="card-title"> <?php echo $name ?> </h6>
-                    <p class="card-text"><?php echo $small_description ?><span style="display: inline" id="dots<?php echo $i ?>">...</span><span style="display: none" id="more<?php echo $i ?>"><?php echo substr($description, 150, 500); ?></span></p>
-
-                    <button class="btn btn-link p-0" id="btn<?php echo $i ?>" onclick="
-                    read_more('dots<?php echo $i ?>', 'more<?php echo $i ?>', 'btn<?php echo $i ?>')
-                    ">Read more</button>
-
-                </div>
-            </div>
-
-        <?php
-            $i++;
-        endwhile;
-        $mysqli->close();
-        ?>
-    </div>
+    <a href="../src/login.php">Login!!</a>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
